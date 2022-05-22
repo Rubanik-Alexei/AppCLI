@@ -1,0 +1,5 @@
+package cliapp
+
+func main() {
+
+}
