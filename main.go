@@ -1,13 +1,11 @@
-package cli_app
+/*
+Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 
-import (
-	"log"
+*/
+package main
 
-	"github.com/Rubanik-Alexei/CLI_App/cmd"
-)
+import "github.com/Rubanik-Alexei/AppCLI/cmd"
 
 func main() {
-	if err := cmd.Execute(); err != nil {
-		log.Fatal(err)
-	}
+	cmd.Execute()
 }
