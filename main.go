@@ -4,8 +4,14 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/Rubanik-Alexei/AppCLI/cmd"
+import (
+	"log"
+
+	"github.com/Rubanik-Alexei/AppCLI/cmd"
+)
 
 func main() {
-	cmd.Execute()
+	if err := cmd.Execute(); err != nil {
+		log.Fatal(err)
+	}
 }
