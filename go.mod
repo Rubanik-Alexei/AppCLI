@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/alexflint/go-scalar v1.1.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/charmbracelet/lipgloss v0.4.0 // indirect
 	github.com/containerd/console v1.0.3 // indirect
@@ -27,6 +28,7 @@ require (
 )
 
 require (
+	github.com/alexflint/go-arg v1.4.3
 	github.com/charmbracelet/bubbles v0.10.3
 	github.com/charmbracelet/bubbletea v0.20.0
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
