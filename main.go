@@ -78,10 +78,10 @@ func main() {
 		defer conn.Close()
 	}
 	cmd.Conn = conn
-	cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
+	//cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
 	//cmd.DoTask([]string{"4"})
-	cmd.ListTasks()
-	cmd.DoTask([]string{"17"})
-	cmd.ListTasks()
+	// cmd.ListTasks()
+	// cmd.DoTask([]string{"17"})
+	// cmd.ListTasks()
 	cmd.Execute()
 }
