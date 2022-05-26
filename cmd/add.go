@@ -13,13 +13,8 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Command for adding tasks",
+	Long:  `You can add a task with it's description in to-do list`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get the flag value, its default value is false
 		// fstatus, _ := cmd.Flags().GetBool("float")
@@ -53,16 +48,16 @@ func AddTask(args []string) {
 		fmt.Printf("Not enough arguments for 'add' command")
 	}
 	//arg.MustParse(&task)
-	var tuple []interface{}
+	var tuple []interface{} = []interface{}{nil}
 	for _, v := range args {
 		tuple = append(tuple, v)
 	}
 	tuple = append(tuple, 0)
 	err := Conn.InsertTyped("toDo", tuple, &task)
-	if err != nil && err.Error() != "msgpack: invalid code 93 decoding bytes length" {
-		fmt.Printf("Error in 'add' command:%s", err)
+	if err != nil && err.Error() != "msgpack: invalid code 94 decoding int64" {
+		fmt.Printf("Error in 'add' command: %s", err)
 	} else {
-		fmt.Printf("Successfully added the task: '%s': %s", tuple[0], tuple[1])
+		fmt.Printf("Successfully added the task: '%s': %s\n", tuple[1], tuple[2])
 	}
 }
 

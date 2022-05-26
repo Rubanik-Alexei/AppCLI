@@ -28,6 +28,10 @@ func main() {
 	defer conn.Close()
 	spaces := conn.Schema.Spaces
 	if _, ok := spaces["toDo"]; !ok {
+		_, err = conn.Call("box.schema.sequence.create", []interface{}{"S", map[string]bool{"if_not_exists": true}})
+		if err != nil {
+			log.Fatal(err)
+		}
 		_, err = conn.Call("box.schema.space.create", []interface{}{"toDo", map[string]bool{"if_not_exists": true}})
 		if err != nil {
 			errtxt := err.Error()
@@ -37,19 +41,31 @@ func main() {
 		}
 		_, err = conn.Call("box.space.toDo:format", [][]map[string]string{
 			{
+				{"name": "id", "type": "integer"},
 				{"name": "name", "type": "string"},
 				{"name": "description", "type": "string"},
-				{"name": "completedAt", "type": "unsigned"}, //storing as UNIX time
+				{"name": "completedAt", "type": "integer"}, //storing as UNIX time
 			}})
 		if err != nil {
 			log.Fatal(err)
 		}
 		_, err = conn.Call("box.space.toDo:create_index", []interface{}{
-			"todoIndex",
+			"primary",
 			map[string]interface{}{
-				"parts":         []string{"name"},
+				"parts":         []string{"id"},
 				"type":          "TREE",
 				"unique":        true,
+				"sequence":      "S",
+				"if_not_exists": true}})
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = conn.Call("box.space.toDo:create_index", []interface{}{
+			"toDoIndex",
+			map[string]interface{}{
+				"parts":         []string{"completedAt"},
+				"type":          "TREE",
+				"unique":        false,
 				"if_not_exists": true}})
 		if err != nil {
 			log.Fatal(err)
@@ -62,6 +78,10 @@ func main() {
 		defer conn.Close()
 	}
 	cmd.Conn = conn
-	//cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
+	cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
+	//cmd.DoTask([]string{"4"})
+	cmd.ListTasks()
+	cmd.DoTask([]string{"17"})
+	cmd.ListTasks()
 	cmd.Execute()
 }

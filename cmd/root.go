@@ -12,9 +12,10 @@ import (
 )
 
 type Task struct {
+	Id          int    `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	CompletedAt int    `json:"completedAt"`
+	CompletedAt int64  `json:"completedAt"`
 }
 
 var Conn *tarantool.Connection
