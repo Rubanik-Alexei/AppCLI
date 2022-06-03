@@ -83,6 +83,6 @@ func main() {
 	// cmd.ListTasks()
 	// cmd.DoTask([]string{"17"})
 	// cmd.ListTasks()
-	cmd.RemoveTask([]string{"1"})
+	//cmd.RemoveTask([]string{"1"})
 	cmd.Execute()
 }
