@@ -23,7 +23,7 @@ var Conn *tarantool.Connection
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "AppCLI",
-	Short: "A brief description of your application",
+	Short: "to-do list",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
 
