@@ -8,9 +8,13 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/Rubanik-Alexei/AppCLI/internal/models"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
 	"github.com/tarantool/go-tarantool"
 )
+
+var P *tea.Program
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
@@ -23,7 +27,7 @@ var listCmd = &cobra.Command{
 	// This application is a tool to generate the needed files
 	// to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		ListTasks()
+		ListTasksTUI()
 	},
 }
 
@@ -42,7 +46,7 @@ func init() {
 }
 
 func ListTasks() {
-	var tasks []Task
+	var tasks []models.Task
 	err := Conn.SelectTyped("toDo", "toDoIndex", 0, 10, tarantool.IterEq, []interface{}{0}, &tasks)
 	if err != nil {
 		log.Fatal(err)
@@ -55,4 +59,18 @@ func ListTasks() {
 	for _, task := range tasks {
 		fmt.Printf("%v. %s : %s\n", task.Id, task.Name, task.Description)
 	}
+}
+
+func ListTasksTUI() []models.Task {
+	var tasks []models.Task
+	err := Conn.SelectTyped("toDo", "toDoIndex", 0, 10, tarantool.IterEq, []interface{}{0}, &tasks)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if len(tasks) == 0 {
+		fmt.Println("Congrats, there's no incompleted tasks!")
+		return nil
+	}
+	//fmt.Println("List of incompleted tasks:")
+	return tasks
 }

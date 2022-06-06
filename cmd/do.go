@@ -13,6 +13,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// type Tmpcmd struct {
+// 	//models.Tmpcmd
+// }
+
 // doCmd represents the do command
 var doCmd = &cobra.Command{
 	Use:   "do",
@@ -24,6 +28,7 @@ var doCmd = &cobra.Command{
 	// This application is a tool to generate the needed files
 	// to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		//var tmpcmd = Tmpcmd{}
 		DoTask(args)
 	},
 }
