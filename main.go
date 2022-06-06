@@ -8,6 +8,8 @@ import (
 	"log"
 
 	"github.com/Rubanik-Alexei/AppCLI/cmd"
+	"github.com/Rubanik-Alexei/AppCLI/internal/tui"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/tarantool/go-tarantool"
 )
 
@@ -78,11 +80,15 @@ func main() {
 		defer conn.Close()
 	}
 	cmd.Conn = conn
-	//cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
+	cmd.P = tea.NewProgram(tui.NewModel(cmd.ListTasksTUI()))
+	// cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
+	// cmd.AddTask([]string{"JobsSearching", "Check new jobs"})
 	//cmd.DoTask([]string{"4"})
 	// cmd.ListTasks()
 	// cmd.DoTask([]string{"17"})
 	// cmd.ListTasks()
 	//cmd.RemoveTask([]string{"1"})
+	//cmd..DoTask([]string{"14"})
 	cmd.Execute()
+
 }

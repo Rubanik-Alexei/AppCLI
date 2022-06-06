@@ -7,6 +7,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/Rubanik-Alexei/AppCLI/internal/models"
 	"github.com/spf13/cobra"
 )
 
@@ -43,7 +44,7 @@ func init() {
 }
 
 func AddTask(args []string) {
-	task := Task{}
+	task := models.Task{}
 	if len(args) < 2 {
 		fmt.Printf("Not enough arguments for 'add' command")
 	}
