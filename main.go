@@ -5,7 +5,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/Rubanik-Alexei/AppCLI/cmd"
 	"github.com/Rubanik-Alexei/AppCLI/internal/tui"
@@ -22,6 +24,7 @@ var (
 var conn *tarantool.Connection
 
 func main() {
+	var isEmpty bool
 	var err error
 	conn, err = tarantool.Connect("127.0.0.1:3301", opts)
 	if err != nil {
@@ -78,17 +81,28 @@ func main() {
 			panic(err)
 		}
 		defer conn.Close()
+		isEmpty = true
 	}
 	cmd.Conn = conn
-	cmd.P = tea.NewProgram(tui.NewModel(cmd.ListTasksTUI()))
-	// cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
-	// cmd.AddTask([]string{"JobsSearching", "Check new jobs"})
+	if isEmpty {
+		cmd.AddTask([]string{"cliApp", "FinishCLIApp"})
+		cmd.AddTask([]string{"JobsSearching", "Check new jobs"})
+	}
 	//cmd.DoTask([]string{"4"})
 	// cmd.ListTasks()
 	// cmd.DoTask([]string{"17"})
 	// cmd.ListTasks()
 	//cmd.RemoveTask([]string{"1"})
 	//cmd..DoTask([]string{"14"})
+	InitModel()
 	cmd.Execute()
 
+}
+
+func InitModel() {
+	cmd.P = tea.NewProgram(tui.NewModel(cmd.ListTasksTUI()))
+	if err := cmd.P.Start(); err != nil {
+		fmt.Printf("Alas, there's been an error: %v", err)
+		os.Exit(1)
+	}
 }

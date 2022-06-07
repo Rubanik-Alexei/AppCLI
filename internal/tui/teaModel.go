@@ -38,8 +38,7 @@ func NewModel(tasks []models.Task) model {
 
 func (m model) View() string {
 	// The header
-	s := "List of incompleted tasks:\n\n"
-
+	s := ""
 	// Iterate over our choices
 	for i, task := range m.tasks {
 
@@ -58,7 +57,9 @@ func (m model) View() string {
 		// Render the row
 		s += fmt.Sprintf("%s [%s] %v, %s \n", cursor, checked, task.Id, task.Name)
 	}
-
+	if s != "" {
+		s = "List of incompleted tasks:\n\n" + s
+	}
 	// The footer
 	s += "\nPress q to quit.\n"
 	s += "\nPress d to complete tasks.\n"
@@ -87,7 +88,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				args = append(args, strconv.Itoa(id))
 			}
 			cmd.DoTask(args)
+			//time.Sleep(3 * time.Second)
 			m.UpdateTasks()
+			return m, tea.Quit
 		case "enter", " ":
 			_, ok := m.selected[m.cursor]
 			if ok {
@@ -104,7 +107,7 @@ func (m model) Init() tea.Cmd {
 	return nil
 }
 
-func (m *model) UpdateTasks() {
+func (m model) UpdateTasks() {
 	m.tasks = cmd.ListTasksTUI()
 }
 

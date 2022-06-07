@@ -68,7 +68,7 @@ func ListTasksTUI() []models.Task {
 		log.Fatal(err)
 	}
 	if len(tasks) == 0 {
-		fmt.Println("Congrats, there's no incompleted tasks!")
+		//fmt.Println("Congrats, there's no incompleted tasks!")
 		return nil
 	}
 	//fmt.Println("List of incompleted tasks:")

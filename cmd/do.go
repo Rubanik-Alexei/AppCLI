@@ -48,19 +48,19 @@ func init() {
 }
 
 func DoTask(args []string) {
-	fmt.Println("You've completed following tasks:")
+	fmt.Printf("You've completed following tasks:\n\r")
 	var tmpTime int64
 	for _, v := range args {
 		tmpTime = time.Now().Unix()
 		id, err := strconv.Atoi(v)
 		if err != nil {
-			fmt.Printf("Got error:%s for task %s\n", err, v)
+			fmt.Printf("\rGot error:%s for task %s\n", err, v)
 		}
 		resp, err := Conn.Update("toDo", "primary", []interface{}{id}, []interface{}{[]interface{}{"=", 3, tmpTime}})
 		if err != nil {
-			fmt.Printf("Got error:%s for task %s\n", resp.Error, v)
+			fmt.Printf("Got error:%s for task %s\n\r", resp.Error, v)
 		} else {
-			fmt.Printf("%s at %s\n", strings.Split(resp.String(), " ")[3], time.Unix(tmpTime, 0))
+			fmt.Printf("Debug: %s at %s\n\r", strings.TrimPrefix(strings.Split(resp.String(), " ")[3], " "), time.Unix(tmpTime, 0))
 		}
 	}
 }
