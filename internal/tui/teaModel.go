@@ -24,6 +24,7 @@ type model struct {
 	tasks    []models.Task
 	cursor   int
 	selected map[int]int
+	cmdFlag  bool
 	//cmd      cmd
 }
 
@@ -33,44 +34,53 @@ func NewModel(tasks []models.Task) model {
 	return model{
 		tasks:    tasks,
 		selected: make(map[int]int),
+		cmdFlag:  false,
 	}
 }
 
 func (m model) View() string {
 	// The header
 	s := ""
-	// Iterate over our choices
-	for i, task := range m.tasks {
+	if m.cmdFlag != false {
+		// Iterate over our choices
+		for i, task := range m.tasks {
 
-		// Is the cursor pointing at this choice?
-		cursor := " " // no cursor
-		if m.cursor == i {
-			cursor = ">" // cursor!
+			// Is the cursor pointing at this choice?
+			cursor := " " // no cursor
+			if m.cursor == i {
+				cursor = ">" // cursor!
+			}
+
+			// Is this choice selected?
+			checked := " " // not selected
+			if _, ok := m.selected[i]; ok {
+				checked = "x" // selected!
+			}
+
+			// Render the row
+			s += fmt.Sprintf("%s [%s] %v, %s \n", cursor, checked, task.Id, task.Name)
 		}
-
-		// Is this choice selected?
-		checked := " " // not selected
-		if _, ok := m.selected[i]; ok {
-			checked = "x" // selected!
-		}
-
-		// Render the row
-		s += fmt.Sprintf("%s [%s] %v, %s \n", cursor, checked, task.Id, task.Name)
 	}
 	if s != "" {
 		s = "List of incompleted tasks:\n\n" + s
+		s += "\nPress q to quit.\n"
+		s += "\nPress d to complete tasks.\n\n"
 	}
 	// The footer
-	s += "\nPress q to quit.\n"
-	s += "\nPress d to complete tasks.\n"
-
 	// Send the UI for rendering
 	return s
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
+	case tea.Cmd:
+		m.cmdFlag = false
+		tea.Quit()
+		// if strings.Split(msg ," ")>=3{
+
+		// }
 	case tea.KeyMsg:
+		m.cmdFlag = true
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit

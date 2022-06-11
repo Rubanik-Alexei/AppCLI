@@ -94,8 +94,8 @@ func main() {
 	// cmd.ListTasks()
 	//cmd.RemoveTask([]string{"1"})
 	//cmd..DoTask([]string{"14"})
-	InitModel()
 	cmd.Execute()
+	InitModel()
 
 }
 
